@@ -6,17 +6,59 @@
         xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200">
-    <Grid>
-        <ListView x:Name="listView" Margin="5,30,5,49
-                  " FontFamily="Courier New" FontSize="16">
+        Title="MainWindow" Height="800" Width="1200"
+        FontFamily="Comic Sans MS" 
+        
+		>
 
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListView x:Name="listView" Margin="5,30,5,49" FontFamily="Courier New" FontSize="16">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="567" Header="Имя файла" DisplayMemberBinding="{Binding Path=fileName}" />
-                    <GridViewColumn Width="567" Header="Хэш-значение" DisplayMemberBinding="{Binding Path=hashValue}" />
+                    <GridView.Columns>
+                        <GridViewColumn Width="567" Header="Имя файла" DisplayMemberBinding="{Binding Path=fileName}" />
+                        <GridViewColumn Width="567" Header="Хэш-значение" DisplayMemberBinding="{Binding Path=hashValue}" />
+                    </GridView.Columns>
                 </GridView>
             </ListView.View>
+
         </ListView>
+        <Button Content="Рассчитать" 
+                HorizontalAlignment="Left" VerticalAlignment="Bottom" 
+                Width="150" Height="30" 
+                Margin="5,0,0,10" Padding="0" 
+                FontSize="16"  
+                Style="{StaticResource ButtonPrimary}"/>
+
+        <ProgressBar Value="50" Style="{StaticResource ProgressBarSuccess}"
+                     Foreground="{DynamicResource DarkPrimaryBrush}"
+                     
+                     Margin="180,0,180,25" Padding="0" Height="10" VerticalAlignment="Bottom"/>
+
+        <ProgressBar Value="20" Style="{StaticResource ProgressBarFlat}"
+                     Foreground="{DynamicResource DarkPrimaryBrush}"
+                     Margin="180,0,180,15" Padding="0" Height="5" VerticalAlignment="Bottom"/>
+
+        <Button Content="Очистить" 
+                HorizontalAlignment="Right" VerticalAlignment="Bottom" 
+                Width="150" Height="30" 
+                Margin="0,0,5,10" Padding="0" 
+                FontSize="16"  
+                Style="{StaticResource ButtonDanger}"/>
+        <Menu HorizontalAlignment="Left" Height="32" Margin="122,10,0,0" VerticalAlignment="Top" Width="307">
+            <MenuItem Header="1212" Height="63" Width="100">
+                <MenuItem Header="MenuItem" HorizontalAlignment="Left" Height="100" Width="140"/>
+            </MenuItem>
+            <MenuItem Header="MenuItem" Height="100" Width="100"/>
+        </Menu>
+
+
+
+
+
     </Grid>
+
 </Window>

@@ -35,6 +35,11 @@ namespace WpfApp1
 
             listView.ItemsSource = files;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
     }
 
 
