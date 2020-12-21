@@ -37,10 +37,12 @@ namespace WpfApp1
 
         private async void btn1_click(object sender, RoutedEventArgs e)
         {
-            foreach (File f in files)
+
+            files.AsParallel().WithDegreeOfParallelism(10).ForAll(f =>
             {
                 f.calculateHash();
-            }
+            });
+            
         }
 
         private void dragDrop_Drop(object sender, DragEventArgs e)
@@ -173,12 +175,21 @@ namespace WpfApp1
 
         private void stepH()
         {
-            FileStream fstream = new FileStream(fileName, FileMode.Open);
-            int readSize = 0;
+            FileInfo fileInf = new FileInfo(fileName);
+            long fileSize = fileInf.Length;
+            long readed = 0;
+
+            FileStream fstream = new FileStream(fileName, FileMode.Open);     
             byte[] readBuff = new byte[4096];
-            while ((readSize = fstream.Read(readBuff, 0, 4096)) != 0)
+            int readSize = fstream.Read(readBuff, 0, 4096);
+            while (readSize != 0)
             {
                 beltHashStepH(readBuff, readSize, State1);
+                readed += readSize;
+                this.hashValue = (readed * 100.0 / fileSize).ToString() + " %";
+                
+
+                readSize = fstream.Read(readBuff, 0, 4096);
             }
             fstream.Close();
         }
