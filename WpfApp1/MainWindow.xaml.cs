@@ -181,22 +181,16 @@ namespace WpfApp1
 
             FileStream fstream = new FileStream(fileName, FileMode.Open);     
             byte[] readBuff = new byte[4096];
-            int readSize = fstream.Read(readBuff, 0, 4096);
-            while (readSize != 0)
+            int readSize;
+            while ((readSize = fstream.Read(readBuff, 0, 4096)) != 0)
             {
                 beltHashStepH(readBuff, readSize, State1);
                 readed += readSize;
-                this.hashValue = (readed * 100.0 / fileSize).ToString() + " %";
+                this.hashValue = "   " + (readed * 100.0 / fileSize).ToString() + " %";
                 
 
-                readSize = fstream.Read(readBuff, 0, 4096);
             }
             fstream.Close();
         }
-
-        
-
     }
-
-
 }

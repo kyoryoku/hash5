@@ -8,7 +8,6 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="1200"
         FontFamily="Comic Sans MS">
-
     <Grid>
 
         <Grid Margin="5,5,0,0">
@@ -31,27 +30,42 @@
                 -->
             </hc:ButtonGroup>
 
-            <Label x:Name="lbl_filesCount" Margin="0,5,5,0" Style="{StaticResource LabelPrimary}" VerticalAlignment="Top" HorizontalAlignment="Right" />    
+            <Label x:Name="lbl_filesCount" Margin="0,5,5,0" Style="{StaticResource LabelPrimary}" VerticalAlignment="Top" HorizontalAlignment="Right" />
 
-            
+
 
 
         </Grid>
 
         <Grid Margin="5,50,5,50">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+
             <ListView x:Name="listView" FontFamily="Courier New" FontSize="14" 
-                      Drop="dragDrop_Drop" AllowDrop="true">
+                      Drop="dragDrop_Drop" AllowDrop="true" Panel.ZIndex="1">
                 <ListView.View>
-                    <GridView>
-                        <GridViewColumn Width="567" Header="Имя файла" DisplayMemberBinding="{Binding fileName}" />
-                        <GridViewColumn Width="567" Header="Хэш-значение" DisplayMemberBinding="{Binding hashValue}" />
+                    
+                    
+                    <GridView >
+                        <GridViewColumn x:Name="col"  Width="567" DisplayMemberBinding="{Binding fileName}">
+                            <GridViewColumnHeader>Last Name
+                                <GridViewColumnHeader.ContextMenu>
+                                    <ContextMenu Name="LastNameCM">
+                                        <MenuItem Header="Ascending" />
+                                        <MenuItem Header="Descending" />
+                                    </ContextMenu>
+                                </GridViewColumnHeader.ContextMenu>
+                            </GridViewColumnHeader>
+                            
+                        </GridViewColumn>
+                        <GridViewColumn Width="567" Header="Хэш-значение" DisplayMemberBinding="{Binding hashValue}">
+                            
+                        </GridViewColumn>
                     </GridView>
                 </ListView.View>
 
             </ListView>
+
+            
+
         </Grid>
 
         <Grid>
