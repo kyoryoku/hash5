@@ -173,7 +173,6 @@ namespace WpfApp1
 
         private void stepH()
         {
-            Console.Out.WriteLine(fileName + "  --->   " + Thread.CurrentThread.ManagedThreadId);
             FileStream fstream = new FileStream(fileName, FileMode.Open);
             int readSize = 0;
             byte[] readBuff = new byte[4096];
