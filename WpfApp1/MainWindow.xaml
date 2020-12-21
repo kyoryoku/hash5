@@ -15,7 +15,8 @@
             <hc:ButtonGroup Orientation="Horizontal" HorizontalAlignment="Left" Width="200">
                 <Button Content="1" 
                         Width="40" Height="40" HorizontalAlignment="Left"
-                        ToolTip="Рассчитать хэш-значения"/>
+                        ToolTip="Рассчитать хэш-значения"
+                        Click="btn1_click"/>
                 <Button Content="2"
                         HorizontalAlignment="Left" Width="40" Height="40"/>
                 <Button Content="3"
@@ -41,7 +42,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <ListView x:Name="listView" FontFamily="Courier New" FontSize="16" 
+            <ListView x:Name="listView" FontFamily="Courier New" FontSize="14" 
                       Drop="dragDrop_Drop" AllowDrop="true">
                 <ListView.View>
                     <GridView>
