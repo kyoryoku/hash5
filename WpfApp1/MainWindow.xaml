@@ -5,96 +5,107 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="800" Width="1200"
-        FontFamily="Comic Sans MS">
-    <Grid>
+        Title="MainWindow" Height="900" Width="1300"
         
-        
-    </Grid>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    <!--<Grid>
-
-        <Grid Margin="5,5,0,0">
-            <hc:ButtonGroup Orientation="Horizontal" HorizontalAlignment="Left" Width="200">
-                <Button 
-                        Width="40" Height="40" HorizontalAlignment="Left"
-                        ToolTip="Рассчитать хэш-значения"
-                        Click="btn1_click"
-                        hc:IconElement.Geometry="{StaticResource AddGeometry}" 
-                        hc:IconElement.Width="15" 
-                        
-                        />
-                <Button Content="2"
-                        HorizontalAlignment="Left" Width="40" Height="40"/>
-                <Button Content="3"
-                        HorizontalAlignment="Left" Width="40" Height="40"/>
-                <Button Content="4"
-                        HorizontalAlignment="Left" Width="40" Height="40"/>
-
-            </hc:ButtonGroup>
-
-            <Label x:Name="lbl_filesCount" Margin="0,5,5,0" Style="{StaticResource LabelPrimary}" VerticalAlignment="Top" HorizontalAlignment="Right" />
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="16"
+        TextOptions.TextFormattingMode="Ideal" 
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
 
 
+    <materialDesign:DialogHost IsOpen="True">
+        <materialDesign:DialogHost.DialogContent>
+            <Button ToolTip="Добавить файлы" Click="btn1_click">
+                <materialDesign:PackIcon Kind="PlusThick" />
+            </Button>
+        </materialDesign:DialogHost.DialogContent>
+
+        <Grid>
+            <Grid>
+
+                <ToolBarTray>
+                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}" >
+
+                        <Button ToolTip="Добавить файлы" Click="btn1_click">
+                            <materialDesign:PackIcon Kind="PlusThick" />
+                        </Button>
+
+                        <Button ToolTip="Запустить рассчет" Click="btn2_click">
+                            <materialDesign:PackIcon Kind="Play" />
+                        </Button>
+
+                        <Button ToolTip="Сохранить результаты" Click="btn3_click" >
+                            <materialDesign:PackIcon Kind="ContentSave" />
+                        </Button>
+
+                        <Button ToolTip="Очистить" Click="btn4_click">
+                            <materialDesign:PackIcon Kind="Delete" />
+                        </Button>
+
+                        <Button ToolTip="О программе" Click="btn5_click">
+                            <materialDesign:PackIcon Kind="Help" />
+                        </Button>
 
 
+                        <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Content="123" />
+
+
+
+                        <!--<ListBox SelectionMode="Extended">
+                        <ListBox.ToolTip>
+                            <StackPanel>
+                                <TextBlock Text="MaterialDesignToolToggleListBox" />
+                                <TextBlock Text="Multiple selection" />
+                                <TextBlock Text="ListBoxAssist.IsToggle allows more natural toggle behaviour" />
+                            </StackPanel>
+                        </ListBox.ToolTip>
+                        <ListBoxItem>
+                            <materialDesign:PackIcon Kind="FormatBold" />
+                        </ListBoxItem>
+                        <ListBoxItem>
+                            <materialDesign:PackIcon Kind="FormatItalic" />
+                        </ListBoxItem>
+                        <ListBoxItem x:Name="UnderlineCheckbox">
+                            <materialDesign:PackIcon Kind="FormatUnderline" />
+                        </ListBoxItem>
+                    </ListBox>-->
+
+
+
+                    </ToolBar>
+                </ToolBarTray>
+
+            </Grid>
+
+            <Grid Margin="5,50,5,40">
+
+                <ListView x:Name="listView" 
+                      Drop="dragDrop_Drop" AllowDrop="true"
+                      FontFamily="Courier New" FontSize="16" d:IsHidden="True" 
+                      >
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Width="600" DisplayMemberBinding="{Binding fileName}" Header="Наименовавние файла" />
+                            <GridViewColumn Width="630" DisplayMemberBinding="{Binding hashValue}" Header="Хэш-значение" />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </Grid>
+
+            <Grid>
+                <Label x:Name="lbl_filesCount" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,5"  />
+                <Label x:Name="lbl_hint" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,5" Content="Для начала работы добавьте или перетащите файлы..."  />
+            </Grid>
         </Grid>
 
-        <Grid Margin="5,50,5,5">
 
-            <ListView x:Name="listView" FontFamily="Courier New" FontSize="14" 
-                      Drop="dragDrop_Drop" AllowDrop="true" Panel.ZIndex="1">
-                <ListView.View>
-                    
-                    
-                    <GridView >
-                        <GridViewColumn x:Name="col"  Width="567" DisplayMemberBinding="{Binding fileName}">
-                            <GridViewColumnHeader>Haименование файла
-                                <GridViewColumnHeader.ContextMenu>
-                                    <ContextMenu Name="LastNameCM">
-                                        <MenuItem Header="Ascending" />
-                                        <MenuItem Header="Descending" />
-                                    </ContextMenu>
-                                </GridViewColumnHeader.ContextMenu>
-                            </GridViewColumnHeader>
-                            
-                        </GridViewColumn>
-                        <GridViewColumn Width="567" Header="Хэш-значение" DisplayMemberBinding="{Binding hashValue}">
-                            
-                        </GridViewColumn>
-                    </GridView>
-                </ListView.View>
 
-            </ListView>
+    </materialDesign:DialogHost>
 
-            
-
-        </Grid>
-
-        --><!--<Grid>
-            <ProgressBar Value="50" Style="{StaticResource ProgressBarSuccess}"
-                     Foreground="{DynamicResource DarkPrimaryBrush}"
-                     
-                     Margin="180,0,180,25" Padding="0" Height="10" VerticalAlignment="Bottom"/>
-
-            <ProgressBar Value="20" Style="{StaticResource ProgressBarFlat}"
-                     Foreground="{DynamicResource DarkPrimaryBrush}"
-                     Margin="180,0,180,15" Padding="0" Height="5" VerticalAlignment="Bottom"/>
-        </Grid>--><!--
-    </Grid>-->
+    
 
 </Window>

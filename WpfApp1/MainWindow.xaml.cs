@@ -28,15 +28,21 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
-            //listView.ItemsSource = files;
-            //lbl_filesCount.Content = "Файлов добавлено: " + files.Count.ToString();
+            listView.ItemsSource = files;
+            lbl_filesCount.Content = "Файлов добавлено: " + files.Count.ToString();
             
 
 
         }
 
-        private async void btn1_click(object sender, RoutedEventArgs e)
+        private void btn1_click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("ДОБАВЛЕНИЕ ФАЙЛОВ ЧЕРЕЗ ДИАЛОГ");
+        }
+
+        private async void btn2_click(object sender, RoutedEventArgs e)
+        {
+            lbl_hint.Content = "Расчет запущен! Ожидайте результаты...";
             test();
             await Task.Run(() =>
             {
@@ -57,14 +63,34 @@ namespace WpfApp1
                     Thread.Sleep(100);
                     this.Dispatcher.Invoke(() =>
                     {
-                        //lbl_filesCount.Content = String.Format("Завершено {0} из {1}", files.Where(x => x.isDone).Count(), files.Count);
+                        lbl_filesCount.Content = String.Format("Завершено {0} из {1}", files.Where(x => x.isDone).Count(), files.Count);
                     });
                     
                 }
+
+                this.Dispatcher.Invoke(() =>
+                {
+                    lbl_hint.Content = "Расчет завершен! Сохраните результат...";
+                });
+
                 MessageBox.Show("Расчет контрольных сумм завершен!");
             });
         }
 
+        private void btn3_click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("СОХРАНЕНИЕ РЕЗУЛЬТАТОВ ЧЕРЕХ ДИАЛОГ");
+        }
+
+        private void btn4_click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("ОЧИСТКА ФОРМЫ ЧЕРЕЗ ПОДТВЕРЖДЕНИЕ");
+        }
+
+        private void btn5_click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("ВЫЗОВ ОКНА СПРАВКИ ИЛИ О ПРОГРАММЕ");
+        }
 
         private void dragDrop_Drop(object sender, DragEventArgs e)
         {
@@ -85,7 +111,8 @@ namespace WpfApp1
                    
                 }
             }
-            //lbl_filesCount.Content = "Файлов добавлено: " + files.Count.ToString();
+            lbl_filesCount.Content = "Файлов добавлено: " + files.Count.ToString();
+            lbl_hint.Content = "Файлы добавлены! Запустите расчет...";
         }
 
         public void FindInDir(DirectoryInfo dir, string pattern, bool recursive)
@@ -103,6 +130,8 @@ namespace WpfApp1
                 }
             }
         }
+
+
     }
 
 
