@@ -1,5 +1,4 @@
-﻿using HandyControl.Data;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -29,21 +28,43 @@ namespace WpfApp1
         public MainWindow()
         {
             InitializeComponent();
-            listView.ItemsSource = files;
-            lbl_filesCount.Content = "Файлов добавлено: " + files.Count.ToString();
+            //listView.ItemsSource = files;
+            //lbl_filesCount.Content = "Файлов добавлено: " + files.Count.ToString();
             
-            
+
+
         }
 
         private async void btn1_click(object sender, RoutedEventArgs e)
         {
-
-            files.AsParallel().WithDegreeOfParallelism(10).ForAll(f =>
+            test();
+            await Task.Run(() =>
             {
-                f.calculateHash();
+                files.AsParallel().WithDegreeOfParallelism(8).ForAll(f =>
+                    {
+                        f.calculateHash();
+                    });
             });
-            
         }
+
+
+        async private void test()
+        {
+            await Task.Run(() =>
+            {
+                while (files.Where(x => x.isDone).Count() != files.Count)
+                {
+                    Thread.Sleep(100);
+                    this.Dispatcher.Invoke(() =>
+                    {
+                        //lbl_filesCount.Content = String.Format("Завершено {0} из {1}", files.Where(x => x.isDone).Count(), files.Count);
+                    });
+                    
+                }
+                MessageBox.Show("Расчет контрольных сумм завершен!");
+            });
+        }
+
 
         private void dragDrop_Drop(object sender, DragEventArgs e)
         {
@@ -64,7 +85,7 @@ namespace WpfApp1
                    
                 }
             }
-            lbl_filesCount.Content = "Файлов добавлено: " + files.Count.ToString();
+            //lbl_filesCount.Content = "Файлов добавлено: " + files.Count.ToString();
         }
 
         public void FindInDir(DirectoryInfo dir, string pattern, bool recursive)
@@ -104,6 +125,13 @@ namespace WpfApp1
             set { SetProperty(ref _hashValue, value); }
         }
 
+        private bool _isDone;
+        public bool isDone
+        {
+            get { return _isDone; }
+            set { SetProperty(ref _isDone, value); }
+        }
+
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
             if (object.Equals(storage, value)) return false;
@@ -125,6 +153,8 @@ namespace WpfApp1
         public File(string fileName)
         {
             this.fileName = fileName;
+            this.hashValue = "";
+            this.isDone = false;
         }
 
 
@@ -142,21 +172,37 @@ namespace WpfApp1
         private byte[] State1;
         private byte[] Hash1;
 
-        async public void calculateHash()
+        public void calculateHash()
         {
             //1. подготовка общих буферов
             State1 = new byte[4096];
             Hash1 = new byte[32];
-            for (int i = 0; i < 4096; i++){
-                State1[i] = 0;
-            }
-            for (int i = 0; i < 32; i++){
-                Hash1[i] = 0;
-            }
+            //for (int i = 0; i < 4096; i++){
+            //    State1[i] = 0;
+            //}
+            //for (int i = 0; i < 32; i++){
+            //    Hash1[i] = 0;
+            //}
             beltHashStart(State1);
 
             //2. считываение файла и расчет блоков
-            await Task.Run(() => stepH());
+            //await Task.Run(() => stepH());
+            
+            FileInfo fileInf = new FileInfo(fileName);
+            long fileSize = fileInf.Length;
+            long readed = 0;
+
+            FileStream fstream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
+            byte[] readBuff = new byte[4096];
+            int readSize;
+            while ((readSize = fstream.Read(readBuff, 0, 4096)) != 0)
+            {
+                beltHashStepH(readBuff, readSize, State1);
+                readed += readSize;
+                this.hashValue = String.Format("   {0:P1}", readed * 1.0 / fileSize);
+            }
+            fstream.Close();
+
 
             //3. расчет окончательного значения и приведение к виду
             beltHashStepG(Hash1, State1);
@@ -170,7 +216,8 @@ namespace WpfApp1
                 }
             }
 
-            this.hashValue = res;
+            this.hashValue = res.ToUpper();
+            this.isDone = true;
         }
 
         private void stepH()
@@ -179,14 +226,14 @@ namespace WpfApp1
             long fileSize = fileInf.Length;
             long readed = 0;
 
-            FileStream fstream = new FileStream(fileName, FileMode.Open);     
+            FileStream fstream = new FileStream(fileName, FileMode.Open, FileAccess.Read);     
             byte[] readBuff = new byte[4096];
             int readSize;
             while ((readSize = fstream.Read(readBuff, 0, 4096)) != 0)
             {
                 beltHashStepH(readBuff, readSize, State1);
                 readed += readSize;
-                this.hashValue = "   " + (readed * 100.0 / fileSize).ToString() + " %";
+                this.hashValue = String.Format("   {0:P1}", readed * 1.0 / fileSize);
                 
 
             }
