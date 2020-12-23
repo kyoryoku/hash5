@@ -17,11 +17,27 @@
         FontFamily="{DynamicResource MaterialDesignFont}">
 
 
-    <materialDesign:DialogHost IsOpen="True">
+    <materialDesign:DialogHost >
         <materialDesign:DialogHost.DialogContent>
-            <Button ToolTip="Добавить файлы" Click="btn1_click">
-                <materialDesign:PackIcon Kind="PlusThick" />
-            </Button>
+            <StackPanel Width="400" Height="400">
+                <Grid>
+                    <Button ToolTip="Добавить файлы" Click="btn1_click">
+                        <materialDesign:PackIcon Kind="PlusThick" />
+                    </Button>
+
+                    <Button Style="{StaticResource MaterialDesignFlatButton}" 
+                            IsCancel="True" Margin="0 8 8 0" Command="materialDesign:DialogHost.CloseDialogCommand">
+                        <Button.CommandParameter>
+                            <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
+                                False
+                            </system:Boolean>
+                        </Button.CommandParameter>
+                        CANCEL
+                    </Button>
+                </Grid>
+                
+            </StackPanel>
+            
         </materialDesign:DialogHost.DialogContent>
 
         <Grid>
