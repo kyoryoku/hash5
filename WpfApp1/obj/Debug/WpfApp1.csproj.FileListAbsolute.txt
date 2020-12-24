@@ -42,3 +42,5 @@ C:\Users\admin\VisualStudioProjects\hash5\WpfApp1\bin\Debug\MaterialDesignThemes
 C:\Users\admin\VisualStudioProjects\hash5\WpfApp1\bin\Debug\MaterialDesignColors.pdb
 C:\Users\admin\VisualStudioProjects\hash5\WpfApp1\bin\Debug\MaterialDesignThemes.Wpf.pdb
 C:\Users\admin\VisualStudioProjects\hash5\WpfApp1\bin\Debug\MaterialDesignThemes.Wpf.xml
+C:\Users\dshul\source\repos\WpfApp1\WpfApp1\obj\Debug\DeletionConfirmationForm.g.cs
+C:\Users\dshul\source\repos\WpfApp1\WpfApp1\obj\Debug\DeletionConfirmationForm.baml

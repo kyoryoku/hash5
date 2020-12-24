@@ -16,62 +16,64 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
 
+        <materialDesign:DialogHost x:Name="dialogHost">
 
-    <materialDesign:DialogHost >
-        <materialDesign:DialogHost.DialogContent>
-            <StackPanel Width="400" Height="400">
-                <Grid>
-                    <Button ToolTip="Добавить файлы" Click="btn1_click">
-                        <materialDesign:PackIcon Kind="PlusThick" />
+            <materialDesign:DialogHost.DialogContent>
+                <Grid Width="400" Height="400" >
+                   
+
+                <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" >
+                    <Button Margin="0 0 50 10" 
+                            Style="{StaticResource MaterialDesignFlatButton}" 
+                            Command="materialDesign:DialogHost.CloseDialogCommand">
+                        
+                        ОЧИСТИТЬ
                     </Button>
 
                     <Button Style="{StaticResource MaterialDesignFlatButton}" 
-                            IsCancel="True" Margin="0 8 8 0" Command="materialDesign:DialogHost.CloseDialogCommand">
-                        <Button.CommandParameter>
-                            <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
-                                False
-                            </system:Boolean>
-                        </Button.CommandParameter>
-                        CANCEL
+                            Margin="50 0 0 10" 
+                            Command="materialDesign:DialogHost.CloseDialogCommand">
+                        
+                        ОТМЕТ
                     </Button>
-                </Grid>
-                
-            </StackPanel>
-            
-        </materialDesign:DialogHost.DialogContent>
+                </StackPanel>
+            </Grid>
+            </materialDesign:DialogHost.DialogContent>
 
-        <Grid>
+
             <Grid>
+                <Grid>
 
-                <ToolBarTray>
-                    <ToolBar Style="{DynamicResource MaterialDesignToolBar}" >
+                    <ToolBarTray>
+                        <ToolBar Style="{DynamicResource MaterialDesignToolBar}" >
 
-                        <Button ToolTip="Добавить файлы" Click="btn1_click">
-                            <materialDesign:PackIcon Kind="PlusThick" />
-                        </Button>
+                            <Button ToolTip="Добавить файлы" Click="btn1_click">
+                                <materialDesign:PackIcon Kind="PlusThick" />
+                            </Button>
 
-                        <Button ToolTip="Запустить рассчет" Click="btn2_click">
-                            <materialDesign:PackIcon Kind="Play" />
-                        </Button>
+                            <Button ToolTip="Запустить рассчет" Click="btn2_click">
+                                <materialDesign:PackIcon Kind="Play" />
+                            </Button>
 
-                        <Button ToolTip="Сохранить результаты" Click="btn3_click" >
-                            <materialDesign:PackIcon Kind="ContentSave" />
-                        </Button>
+                            <Button ToolTip="Сохранить результаты" Click="btn3_click" >
+                                <materialDesign:PackIcon Kind="ContentSave" />
+                            </Button>
 
-                        <Button ToolTip="Очистить" Click="btn4_click">
-                            <materialDesign:PackIcon Kind="Delete" />
-                        </Button>
+                            <Button ToolTip="Очистить" Click="btn4_click"
+                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                                <materialDesign:PackIcon Kind="Delete" />
+                            </Button>
 
-                        <Button ToolTip="О программе" Click="btn5_click">
-                            <materialDesign:PackIcon Kind="Help" />
-                        </Button>
-
-
-                        <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Content="123" />
-
+                            <Button ToolTip="О программе" Click="btn5_click">
+                                <materialDesign:PackIcon Kind="Help" />
+                            </Button>
 
 
-                        <!--<ListBox SelectionMode="Extended">
+                            <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Content="123" />
+
+
+
+                            <!--<ListBox SelectionMode="Extended">
                         <ListBox.ToolTip>
                             <StackPanel>
                                 <TextBlock Text="MaterialDesignToolToggleListBox" />
@@ -92,35 +94,33 @@
 
 
 
-                    </ToolBar>
-                </ToolBarTray>
+                        </ToolBar>
+                    </ToolBarTray>
 
-            </Grid>
+                </Grid>
 
-            <Grid Margin="5,50,5,40">
+                <Grid Margin="5,50,5,40">
 
-                <ListView x:Name="listView" 
+                    <ListView x:Name="listView" 
                       Drop="dragDrop_Drop" AllowDrop="true"
                       FontFamily="Courier New" FontSize="16" d:IsHidden="True" 
                       >
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn Width="600" DisplayMemberBinding="{Binding fileName}" Header="Наименовавние файла" />
-                            <GridViewColumn Width="630" DisplayMemberBinding="{Binding hashValue}" Header="Хэш-значение" />
-                        </GridView>
-                    </ListView.View>
-                </ListView>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Width="600" DisplayMemberBinding="{Binding fileName}" Header="Наименовавние файла" />
+                                <GridViewColumn Width="630" DisplayMemberBinding="{Binding hashValue}" Header="Хэш-значение" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+
+                <Grid>
+                    <Label x:Name="lbl_filesCount" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,5"  />
+                    <Label x:Name="lbl_hint" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,5" Content="Для начала работы добавьте или перетащите файлы..."  />
+                </Grid>
             </Grid>
 
-            <Grid>
-                <Label x:Name="lbl_filesCount" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,5"  />
-                <Label x:Name="lbl_hint" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,5" Content="Для начала работы добавьте или перетащите файлы..."  />
-            </Grid>
-        </Grid>
-
-
-
-    </materialDesign:DialogHost>
+        </materialDesign:DialogHost>
 
     
 
