@@ -1,4 +1,5 @@
 ﻿using MaterialDesignThemes.Wpf;
+using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.ObjectModel;
@@ -20,28 +21,51 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+
+
 namespace WpfApp1
 {
+    
     public partial class MainWindow : Window
     {
         ObservableCollection<File> files = new ObservableCollection<File>();
-        
 
         public MainWindow()
         {
             InitializeComponent();
             listView.ItemsSource = files;
-            lbl_filesCount.Content = "Файлов добавлено: " + files.Count.ToString();
+            lbl_filesCount.Content = String.Format("Файлов добавлено: {0}", files.Count.ToString());
+            lbl_hint.Content = "Для начала работы добавьте или перетащите файлы...";
+        }
+
+        //КНОПКА: Добавление папок через диалог
+        private void btn1_click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog openDialog = new System.Windows.Forms.FolderBrowserDialog();
+            openDialog.ShowDialog();
+
         }
 
         //КНОПКА: Добавление файлов через диалог
-        private void btn1_click(object sender, RoutedEventArgs e)
+        private void btn2_click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("ДОБАВЛЕНИЕ ФАЙЛОВ ЧЕРЕЗ ДИАЛОГ");
+            OpenFileDialog openDialog = new OpenFileDialog();
+            openDialog.Title = "Выберите файлы для расчета";
+            openDialog.Multiselect = true;
+
+            if ((bool)!openDialog.ShowDialog())
+            {
+                return;
+            }
+
+            foreach(string f in openDialog.FileNames)
+            {
+                files.Add(new File(f));
+            }
         }
 
         //КНОПКА: Запуск расчета
-        private async void btn2_click(object sender, RoutedEventArgs e)
+        private async void btn3_click(object sender, RoutedEventArgs e)
         {
             lbl_hint.Content = "Расчет запущен! Ожидайте результаты...";
             test();
@@ -79,24 +103,51 @@ namespace WpfApp1
         }
 
         //КНОПКА: Сохранение результатов в .csv
-        private void btn3_click(object sender, RoutedEventArgs e)
+        private void btn4_click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("СОХРАНЕНИЕ РЕЗУЛЬТАТОВ ЧЕРЕХ ДИАЛОГ");
+            SaveFileDialog saveDialog = new SaveFileDialog();
+            saveDialog.Filter = "Текстовый формат (csv)|*.csv";
+            saveDialog.Title = "Сохранить результаты расчета";
+            saveDialog.DefaultExt = "csv";
+            saveDialog.OverwritePrompt = true;
+
+            if ((bool)!saveDialog.ShowDialog())
+                return;
+
+            string str = "";
+            foreach (File f in files)
+            {
+                str += f.fileName + ";" + f.hashValue + ";\n" ;
+            }
+            
+            
+            System.IO.File.WriteAllText(saveDialog.FileName, str, Encoding.UTF8);
+
         }
 
-
-        public delegate void Action();
-
         //КНОПКА: Очистка формы
-        private async void btn4_click(object sender, RoutedEventArgs e)
+        private async void btn5_click(object sender, RoutedEventArgs e)
         {
-            dialogHost.dia
-            var content = new DeletionConfirmationForm();
+            var content = new DeletionConfirmationForm(acceptDialogClear, cancelDialogClear);
             var result = await dialogHost.ShowDialog(content);
         }
 
+        private void acceptDialogClear()
+        {
+            files.Clear();
+            lbl_filesCount.Content = String.Format("Файлов добавлено: {0}", files.Count.ToString());
+            lbl_hint.Content = "Для начала работы добавьте или перетащите файлы...";
+            dialogHost.CurrentSession.Close(false);
+        }
+
+        private void cancelDialogClear()
+        {
+            dialogHost.CurrentSession.Close(false);
+        }
+
+
         //КНОПКА: Справка
-        private void btn5_click(object sender, RoutedEventArgs e)
+        private void btn6_click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("ВЫЗОВ ОКНА СПРАВКИ ИЛИ О ПРОГРАММЕ");
         }
@@ -141,141 +192,5 @@ namespace WpfApp1
                 }
             }
         }
-
-        private void StackPanel_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-
-        }
-    }
-
-
-
-    public class File : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        //Хранит абсолютный путь
-        private string _fileName;
-        public string fileName
-        {
-            get { return _fileName; }
-            set { SetProperty(ref _fileName, value); }
-        }
-
-        //Хранит хэш значение
-        private string _hashValue;
-        public string hashValue
-        {
-            get { return _hashValue; }
-            set { SetProperty(ref _hashValue, value); }
-        }
-
-        //Хранит состояние: true - хэш посчитан, false - нет
-        private bool _isDone;
-        public bool isDone
-        {
-            get { return _isDone; }
-            set { SetProperty(ref _isDone, value); }
-        }
-
-
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (object.Equals(storage, value)) return false;
-
-            storage = value;
-            this.OnPropertyChanged(propertyName);
-            return true;
-        }
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            var eventHandler = this.PropertyChanged;
-            if (eventHandler != null)
-            {
-                eventHandler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
-        public File(string fileName)
-        {
-            this.fileName = fileName;
-            this.hashValue = "";
-            this.isDone = false;
-        }
-
-        //Импорт библиотеки
-        [DllImport("bee2.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void beltHashStart(byte[] state);
-
-        [DllImport("bee2.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void beltHashStepH(byte[] buf, int size, byte[] state);
-
-        [DllImport("bee2.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void beltHashStepG(byte[] hash, byte[] state);
-
-        private byte[] State1;
-        private byte[] Hash1;
-
-        //расчет хэша
-        public void calculateHash()
-        {
-            //1. подготовка общих буферов
-            State1 = new byte[4096];
-            Hash1 = new byte[32];
-            beltHashStart(State1);
-
-            //2. считываение файла и расчет блоков          
-            FileInfo fileInf = new FileInfo(fileName);
-            long fileSize = fileInf.Length;
-            long readed = 0;
-
-            FileStream fstream = new FileStream(fileName, FileMode.Open, FileAccess.Read);
-            byte[] readBuff = new byte[4096];
-            int readSize;
-            while ((readSize = fstream.Read(readBuff, 0, 4096)) != 0)
-            {
-                beltHashStepH(readBuff, readSize, State1);
-                readed += readSize;
-                this.hashValue = String.Format("   {0:P1}", readed * 1.0 / fileSize);
-            }
-            fstream.Close();
-
-
-            //3. расчет окончательного значения и приведение к виду
-            beltHashStepG(Hash1, State1);
-            string res = "";
-            for (int i = 0; i < 32; i++){
-                if (Hash1[i] <= 15){
-                    res = res + "0" + Convert.ToString(Hash1[i], 16);
-                }
-                else{
-                    res = res + Convert.ToString(Hash1[i], 16);
-                }
-            }
-
-            this.hashValue = res.ToUpper();
-            this.isDone = true;
-        }
-
-        //private void stepH()
-        //{
-        //    FileInfo fileInf = new FileInfo(fileName);
-        //    long fileSize = fileInf.Length;
-        //    long readed = 0;
-
-        //    FileStream fstream = new FileStream(fileName, FileMode.Open, FileAccess.Read);     
-        //    byte[] readBuff = new byte[4096];
-        //    int readSize;
-        //    while ((readSize = fstream.Read(readBuff, 0, 4096)) != 0)
-        //    {
-        //        beltHashStepH(readBuff, readSize, State1);
-        //        readed += readSize;
-        //        this.hashValue = String.Format("   {0:P1}", readed * 1.0 / fileSize);
-                
-
-        //    }
-        //    fstream.Close();
-        //}
     }
 }

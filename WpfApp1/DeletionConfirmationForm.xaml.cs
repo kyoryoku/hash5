@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,18 +22,26 @@ namespace WpfApp1
     public partial class DeletionConfirmationForm : UserControl
     {
 
-        Action _action;
-
-        public DeletionConfirmationForm(Action action) 
+        AcceptDialogHandler acceptDialog;
+        CancelDialogHandler cancelDialog;
+        public DeletionConfirmationForm(AcceptDialogHandler acceptDialog, CancelDialogHandler cancelDialog)
         {
-            this._action = action;
+            this.acceptDialog = acceptDialog;
+            this.cancelDialog = cancelDialog;
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+
+        //КНОПКА: принять
+        private void btn1_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("выф выф");
-            _action();
+            acceptDialog();
+        }
+
+        //КНОПКА: отменить
+        private void btn2_Click(object sender, RoutedEventArgs e)
+        {
+            cancelDialog();
         }
     }
 }

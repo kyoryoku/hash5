@@ -15,88 +15,70 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}">
-
+  
         <materialDesign:DialogHost x:Name="dialogHost">
 
             <materialDesign:DialogHost.DialogContent>
-                <Grid Width="400" Height="400" >
-                   
+                <Grid>
 
-                <StackPanel VerticalAlignment="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" >
-                    <Button Margin="0 0 50 10" 
-                            Style="{StaticResource MaterialDesignFlatButton}" 
-                            Command="materialDesign:DialogHost.CloseDialogCommand">
-                        
-                        ОЧИСТИТЬ
-                    </Button>
-
-                    <Button Style="{StaticResource MaterialDesignFlatButton}" 
-                            Margin="50 0 0 10" 
-                            Command="materialDesign:DialogHost.CloseDialogCommand">
-                        
-                        ОТМЕТ
-                    </Button>
-                </StackPanel>
-            </Grid>
+                </Grid>
             </materialDesign:DialogHost.DialogContent>
 
 
             <Grid>
                 <Grid>
-
                     <ToolBarTray>
                         <ToolBar Style="{DynamicResource MaterialDesignToolBar}" >
 
-                            <Button ToolTip="Добавить файлы" Click="btn1_click">
-                                <materialDesign:PackIcon Kind="PlusThick" />
+                            <Button ToolTip="Добавить папки" Click="btn1_click">
+                                <materialDesign:PackIcon Kind="FolderPlus" />
+                            </Button>
+                            
+                            <Button ToolTip="Добавить файлы" Click="btn2_click">
+                                <materialDesign:PackIcon Kind="FilePlus" />
                             </Button>
 
-                            <Button ToolTip="Запустить рассчет" Click="btn2_click">
+                            <Button ToolTip="Запустить рассчет" Click="btn3_click">
                                 <materialDesign:PackIcon Kind="Play" />
                             </Button>
 
-                            <Button ToolTip="Сохранить результаты" Click="btn3_click" >
+                            <Button ToolTip="Сохранить результаты" Click="btn4_click" >
                                 <materialDesign:PackIcon Kind="ContentSave" />
                             </Button>
 
-                            <Button ToolTip="Очистить" Click="btn4_click"
-                                    Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
+                            <Button ToolTip="Очистить" Click="btn5_click"
+                                        Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
                                 <materialDesign:PackIcon Kind="Delete" />
                             </Button>
 
-                            <Button ToolTip="О программе" Click="btn5_click">
+                            <Button ToolTip="О программе" Click="btn6_click">
                                 <materialDesign:PackIcon Kind="Help" />
                             </Button>
 
 
-                            <Button Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}" Content="123" />
-
-
-
                             <!--<ListBox SelectionMode="Extended">
-                        <ListBox.ToolTip>
-                            <StackPanel>
-                                <TextBlock Text="MaterialDesignToolToggleListBox" />
-                                <TextBlock Text="Multiple selection" />
-                                <TextBlock Text="ListBoxAssist.IsToggle allows more natural toggle behaviour" />
-                            </StackPanel>
-                        </ListBox.ToolTip>
-                        <ListBoxItem>
-                            <materialDesign:PackIcon Kind="FormatBold" />
-                        </ListBoxItem>
-                        <ListBoxItem>
-                            <materialDesign:PackIcon Kind="FormatItalic" />
-                        </ListBoxItem>
-                        <ListBoxItem x:Name="UnderlineCheckbox">
-                            <materialDesign:PackIcon Kind="FormatUnderline" />
-                        </ListBoxItem>
-                    </ListBox>-->
+                            <ListBox.ToolTip>
+                                <StackPanel>
+                                    <TextBlock Text="MaterialDesignToolToggleListBox" />
+                                    <TextBlock Text="Multiple selection" />
+                                    <TextBlock Text="ListBoxAssist.IsToggle allows more natural toggle behaviour" />
+                                </StackPanel>
+                            </ListBox.ToolTip>
+                            <ListBoxItem>
+                                <materialDesign:PackIcon Kind="FormatBold" />
+                            </ListBoxItem>
+                            <ListBoxItem>
+                                <materialDesign:PackIcon Kind="FormatItalic" />
+                            </ListBoxItem>
+                            <ListBoxItem x:Name="UnderlineCheckbox">
+                                <materialDesign:PackIcon Kind="FormatUnderline" />
+                            </ListBoxItem>
+                        </ListBox>-->
 
 
 
                         </ToolBar>
                     </ToolBarTray>
-
                 </Grid>
 
                 <Grid Margin="5,50,5,40">
@@ -115,10 +97,10 @@
                 </Grid>
 
                 <Grid>
-                    <Label x:Name="lbl_filesCount" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,5"  />
-                    <Label x:Name="lbl_hint" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,5" Content="Для начала работы добавьте или перетащите файлы..."  />
+                    <Label x:Name="lbl_filesCount" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,5" />
+                    <Label x:Name="lbl_hint" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,5" />
                 </Grid>
-            </Grid>
+        </Grid>
 
         </materialDesign:DialogHost>
 
