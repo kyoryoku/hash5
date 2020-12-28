@@ -1,31 +1,19 @@
 ﻿using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 using System;
-using System.Collections;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 
 
 namespace WpfApp1
 {
-    
+
     public partial class MainWindow : Window
     {
         ObservableCollection<File> files = new ObservableCollection<File>();
@@ -58,7 +46,7 @@ namespace WpfApp1
                 return;
             }
 
-            foreach(string f in openDialog.FileNames)
+            foreach (string f in openDialog.FileNames)
             {
                 files.Add(new File(f));
             }
@@ -79,7 +67,7 @@ namespace WpfApp1
         }
 
         //обновление компонентов формы пока идет расчет в отдельном потоке
-        async private void test()
+        private async void test()
         {
             await Task.Run(() =>
             {
@@ -90,7 +78,7 @@ namespace WpfApp1
                     {
                         lbl_filesCount.Content = String.Format("Завершено {0} из {1}", files.Where(x => x.isDone).Count(), files.Count);
                     });
-                    
+
                 }
 
                 this.Dispatcher.Invoke(() =>
@@ -117,10 +105,10 @@ namespace WpfApp1
             string str = "";
             foreach (File f in files)
             {
-                str += f.fileName + ";" + f.hashValue + ";\n" ;
+                str += f.fileName + ";" + f.hashValue + ";\n";
             }
-            
-            
+
+
             System.IO.File.WriteAllText(saveDialog.FileName, str, Encoding.UTF8);
 
         }
@@ -128,7 +116,7 @@ namespace WpfApp1
         //КНОПКА: Очистка формы
         private async void btn5_click(object sender, RoutedEventArgs e)
         {
-            var content = new DeletionConfirmationForm(acceptDialogClear, cancelDialogClear);
+            var content = new DeletionConfirmationForm(acceptDialogClear, cancelDialog);
             var result = await dialogHost.ShowDialog(content);
         }
 
@@ -140,17 +128,19 @@ namespace WpfApp1
             dialogHost.CurrentSession.Close(false);
         }
 
-        private void cancelDialogClear()
+        private void cancelDialog()
         {
             dialogHost.CurrentSession.Close(false);
         }
 
 
         //КНОПКА: Справка
-        private void btn6_click(object sender, RoutedEventArgs e)
+        private async void btn6_click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("ВЫЗОВ ОКНА СПРАВКИ ИЛИ О ПРОГРАММЕ");
+            var content = new HelpForm(cancelDialog);
+            var result = await dialogHost.ShowDialog(content);
         }
+
 
         //Перетаскивание на форму объектов
         private void dragDrop_Drop(object sender, DragEventArgs e)
@@ -161,15 +151,17 @@ namespace WpfApp1
                 string[] dropedObj = (string[])e.Data.GetData(DataFormats.FileDrop);
 
                 // проходим по каждому объекту и пытаемся вытасчить оттуда все файлы
-                foreach(string obj in dropedObj)
+                foreach (string obj in dropedObj)
                 {
-                    if (Directory.Exists(obj)) {
+                    if (Directory.Exists(obj))
+                    {
                         FindInDir(new DirectoryInfo(obj), "*", true);
-                    } else
+                    }
+                    else
                     {
                         files.Add(new File(obj));
                     }
-                   
+
                 }
             }
             lbl_filesCount.Content = "Файлов добавлено: " + files.Count.ToString();
@@ -187,7 +179,7 @@ namespace WpfApp1
             {
                 foreach (DirectoryInfo subdir in dir.GetDirectories())
                 {
-                    
+
                     this.FindInDir(subdir, pattern, recursive);
                 }
             }

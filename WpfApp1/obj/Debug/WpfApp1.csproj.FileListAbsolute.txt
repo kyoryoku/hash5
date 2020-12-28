@@ -47,3 +47,6 @@ C:\Users\dshul\source\repos\WpfApp1\WpfApp1\obj\Debug\DeletionConfirmationForm.b
 C:\Users\admin\VisualStudioProjects\hash5\WpfApp1\obj\Debug\DeletionConfirmationForm.g.cs
 C:\Users\admin\VisualStudioProjects\hash5\WpfApp1\obj\Debug\DeletionConfirmationForm.baml
 C:\Users\admin\VisualStudioProjects\hash5\WpfApp1\obj\Debug\Dictionary1.baml
+C:\Users\dshul\source\repos\WpfApp1\WpfApp1\obj\Debug\Dictionary1.baml
+C:\Users\dshul\source\repos\WpfApp1\WpfApp1\obj\Debug\HelpForm.g.cs
+C:\Users\dshul\source\repos\WpfApp1\WpfApp1\obj\Debug\HelpForm.baml

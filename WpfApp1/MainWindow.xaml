@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="900" Width="1300"
+        Title="MainWindow" Height="720" Width="1200"
         
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -38,20 +38,23 @@
                                 <materialDesign:PackIcon Kind="FilePlus" />
                             </Button>
 
-                            <Button ToolTip="Запустить рассчет" Click="btn3_click">
+                        <Separator/>
+                        <Button ToolTip="Запустить рассчет" Click="btn3_click">
                                 <materialDesign:PackIcon Kind="Play" />
                             </Button>
 
                             <Button ToolTip="Сохранить результаты" Click="btn4_click" >
                                 <materialDesign:PackIcon Kind="ContentSave" />
                             </Button>
+                        <Separator/>
 
-                            <Button ToolTip="Очистить" Click="btn5_click"
+                        <Button ToolTip="Очистить" Click="btn5_click"
                                         Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
                                 <materialDesign:PackIcon Kind="Delete" />
                             </Button>
+                        <Separator/>
 
-                            <Button ToolTip="О программе" Click="btn6_click">
+                        <Button ToolTip="О программе" Click="btn6_click">
                                 <materialDesign:PackIcon Kind="Help" />
                             </Button>
 
@@ -89,8 +92,8 @@
                       >
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Width="600" DisplayMemberBinding="{Binding fileName}" Header="Наименовавние файла" />
-                                <GridViewColumn Width="630" DisplayMemberBinding="{Binding hashValue}" Header="Хэш-значение" />
+                                <GridViewColumn Width="500" DisplayMemberBinding="{Binding fileName}" Header="Наименовавние файла" />
+                                <GridViewColumn Width="635" DisplayMemberBinding="{Binding hashValue}" Header="Хэш-значение" />
                             </GridView>
                         </ListView.View>
                     </ListView>
