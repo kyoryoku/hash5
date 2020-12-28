@@ -70,6 +70,8 @@ namespace WpfApp1
         [DllImport("bee2.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void beltHashStepG(byte[] hash, byte[] state);
 
+
+
         private byte[] State1;
         private byte[] Hash1;
 

@@ -16,14 +16,31 @@ namespace WpfApp1
 
     public partial class MainWindow : Window
     {
+        IniFile INI = 
         ObservableCollection<File> files = new ObservableCollection<File>();
 
         public MainWindow()
         {
+            inicializeData();
             InitializeComponent();
             listView.ItemsSource = files;
             lbl_filesCount.Content = String.Format("Файлов добавлено: {0}", files.Count.ToString());
             lbl_hint.Content = "Для начала работы добавьте или перетащите файлы...";
+        }
+
+        //проверка наличия библиотек, загрузка .ini файла
+        private void inicializeData()
+        {
+            
+            if (!new FileInfo("bee2.dll").Exists)
+            {
+                MessageBox.Show("не найдена bee2.dll");
+                Environment.Exit(1);
+            }
+
+            
+
+
         }
 
         //КНОПКА: Добавление папок через диалог
