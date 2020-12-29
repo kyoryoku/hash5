@@ -16,31 +16,57 @@ namespace WpfApp1
 
     public partial class MainWindow : Window
     {
-        IniFile INI = 
-        ObservableCollection<File> files = new ObservableCollection<File>();
+        
+        ObservableCollection<File> FILES = new ObservableCollection<File>();
+        IniFile INI = new IniFile("conf.ini");
+        int THREAD_COUNT = 8;
+        SnackbarMessageQueue MESSAGE_QUEUE = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
 
         public MainWindow()
         {
-            inicializeData();
+            inicializeAppFiles();
             InitializeComponent();
-            listView.ItemsSource = files;
-            lbl_filesCount.Content = String.Format("Файлов добавлено: {0}", files.Count.ToString());
+            inicializeComponentContent();
+        }
+
+        private void inicializeComponentContent()
+        {
+            listView.ItemsSource = FILES;
+            lbl_filesCount.Content = String.Format("Файлов добавлено: {0}", FILES.Count.ToString());
             lbl_hint.Content = "Для начала работы добавьте или перетащите файлы...";
+            snackbar.MessageQueue = MESSAGE_QUEUE;
         }
 
         //проверка наличия библиотек, загрузка .ini файла
-        private void inicializeData()
+        private void inicializeAppFiles()
         {
-            
+
+            //проверяем наличие криптобиблиотеки
             if (!new FileInfo("bee2.dll").Exists)
             {
                 MessageBox.Show("не найдена bee2.dll");
                 Environment.Exit(1);
             }
 
+            //проверяем наличие конф файла
+            if (!new FileInfo("conf.ini").Exists)
+            {
+                //если файла нет, создаем дефолтный
+                MessageBox.Show("не найдена conf.ini. Будет создан по умолчанию");
+                INI.Write("DEFAULT", "THREAD_COUNT", THREAD_COUNT.ToString());
+            } 
+           
+            //пробуем считывать настройки
+            try
+            {
+                THREAD_COUNT = int.Parse(INI.ReadINI("DEFAULT", "THREAD_COUNT"));
+            } catch
+            {
+                //если чтото пошло не так, сообщаем и закрываем прогу
+                MessageBox.Show("ошибка в файле conf.ini");
+                Environment.Exit(1);
+            }
             
-
-
         }
 
         //КНОПКА: Добавление папок через диалог
@@ -65,7 +91,7 @@ namespace WpfApp1
 
             foreach (string f in openDialog.FileNames)
             {
-                files.Add(new File(f));
+                FILES.Add(new File(f));
             }
         }
 
@@ -76,7 +102,7 @@ namespace WpfApp1
             test();
             await Task.Run(() =>
             {
-                files.AsParallel().WithDegreeOfParallelism(8).ForAll(f =>
+                FILES.AsParallel().WithDegreeOfParallelism(THREAD_COUNT).ForAll(f =>
                     {
                         f.calculateHash();
                     });
@@ -88,12 +114,12 @@ namespace WpfApp1
         {
             await Task.Run(() =>
             {
-                while (files.Where(x => x.isDone).Count() != files.Count)
+                while (FILES.Where(x => x.isDone).Count() != FILES.Count)
                 {
                     Thread.Sleep(100);
                     this.Dispatcher.Invoke(() =>
                     {
-                        lbl_filesCount.Content = String.Format("Завершено {0} из {1}", files.Where(x => x.isDone).Count(), files.Count);
+                        lbl_filesCount.Content = String.Format("Завершено {0} из {1}", FILES.Where(x => x.isDone).Count(), FILES.Count);
                     });
 
                 }
@@ -120,7 +146,7 @@ namespace WpfApp1
                 return;
 
             string str = "";
-            foreach (File f in files)
+            foreach (File f in FILES)
             {
                 str += f.fileName + ";" + f.hashValue + ";\n";
             }
@@ -135,12 +161,13 @@ namespace WpfApp1
         {
             var content = new DeletionConfirmationForm(acceptDialogClear, cancelDialog);
             var result = await dialogHost.ShowDialog(content);
+            MESSAGE_QUEUE.Enqueue("Список очищен!");
         }
 
         private void acceptDialogClear()
         {
-            files.Clear();
-            lbl_filesCount.Content = String.Format("Файлов добавлено: {0}", files.Count.ToString());
+            FILES.Clear();
+            lbl_filesCount.Content = String.Format("Файлов добавлено: {0}", FILES.Count.ToString());
             lbl_hint.Content = "Для начала работы добавьте или перетащите файлы...";
             dialogHost.CurrentSession.Close(false);
         }
@@ -150,9 +177,16 @@ namespace WpfApp1
             dialogHost.CurrentSession.Close(false);
         }
 
+        //КНОПКА: Настройки
+        private async void btn6_click(object sender, RoutedEventArgs e)
+        {
+
+
+            MESSAGE_QUEUE.Enqueue("dasdasd");
+        }
 
         //КНОПКА: Справка
-        private async void btn6_click(object sender, RoutedEventArgs e)
+        private async void btn7_click(object sender, RoutedEventArgs e)
         {
             var content = new HelpForm(cancelDialog);
             var result = await dialogHost.ShowDialog(content);
@@ -176,12 +210,12 @@ namespace WpfApp1
                     }
                     else
                     {
-                        files.Add(new File(obj));
+                        FILES.Add(new File(obj));
                     }
 
                 }
             }
-            lbl_filesCount.Content = "Файлов добавлено: " + files.Count.ToString();
+            lbl_filesCount.Content = "Файлов добавлено: " + FILES.Count.ToString();
             lbl_hint.Content = "Файлы добавлены! Запустите расчет...";
         }
 
@@ -190,7 +224,7 @@ namespace WpfApp1
         {
             foreach (FileInfo file in dir.GetFiles(pattern))
             {
-                files.Add(new File(file.FullName));
+                FILES.Add(new File(file.FullName));
             }
             if (recursive)
             {

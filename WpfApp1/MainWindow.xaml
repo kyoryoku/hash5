@@ -38,45 +38,34 @@
                                 <materialDesign:PackIcon Kind="FilePlus" />
                             </Button>
 
-                        <Separator/>
-                        <Button ToolTip="Запустить рассчет" Click="btn3_click">
+                            <Separator/>
+                            
+                            <Button ToolTip="Запустить рассчет" Click="btn3_click">
                                 <materialDesign:PackIcon Kind="Play" />
                             </Button>
 
                             <Button ToolTip="Сохранить результаты" Click="btn4_click" >
                                 <materialDesign:PackIcon Kind="ContentSave" />
                             </Button>
-                        <Separator/>
+                            
+                            <Separator/>
 
-                        <Button ToolTip="Очистить" Click="btn5_click"
+                            <Button ToolTip="Очистить" Click="btn5_click"
                                         Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
                                 <materialDesign:PackIcon Kind="Delete" />
                             </Button>
-                        <Separator/>
+                            
+                            <Separator/>
 
-                        <Button ToolTip="О программе" Click="btn6_click">
+                            <Button ToolTip="Настройки" Click="btn6_click">
+                                <materialDesign:PackIcon Kind="Cog" />
+                            </Button>
+
+                        <Button ToolTip="О программе" Click="btn7_click">
                                 <materialDesign:PackIcon Kind="Help" />
                             </Button>
 
 
-                            <!--<ListBox SelectionMode="Extended">
-                            <ListBox.ToolTip>
-                                <StackPanel>
-                                    <TextBlock Text="MaterialDesignToolToggleListBox" />
-                                    <TextBlock Text="Multiple selection" />
-                                    <TextBlock Text="ListBoxAssist.IsToggle allows more natural toggle behaviour" />
-                                </StackPanel>
-                            </ListBox.ToolTip>
-                            <ListBoxItem>
-                                <materialDesign:PackIcon Kind="FormatBold" />
-                            </ListBoxItem>
-                            <ListBoxItem>
-                                <materialDesign:PackIcon Kind="FormatItalic" />
-                            </ListBoxItem>
-                            <ListBoxItem x:Name="UnderlineCheckbox">
-                                <materialDesign:PackIcon Kind="FormatUnderline" />
-                            </ListBoxItem>
-                        </ListBox>-->
 
 
 
@@ -103,10 +92,8 @@
                     <Label x:Name="lbl_filesCount" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,10,5" />
                     <Label x:Name="lbl_hint" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,5" />
                 </Grid>
-        </Grid>
 
+                <materialDesign:Snackbar x:Name="snackbar" MessageQueue="{materialDesign:MessageQueue}" /> 
+            </Grid>
         </materialDesign:DialogHost>
-
-    
-
 </Window>

@@ -52,5 +52,6 @@ namespace WpfApp1
         {
             return ReadINI(Section, Key).Length > 0;
         }
+
     }
 }
