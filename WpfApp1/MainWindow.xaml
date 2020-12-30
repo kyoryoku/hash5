@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp1"
         mc:Ignorable="d"
-        Title="MainWindow" Height="720" Width="1200"
+        Title="Расчет хэш-значений по СТБ 34.101.31-2011" Height="720" Width="1200"
         
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
@@ -30,27 +30,24 @@
                     <ToolBarTray>
                         <ToolBar Style="{DynamicResource MaterialDesignToolBar}" >
 
-                            <Button ToolTip="Добавить папки" Click="btn1_click">
-                                <materialDesign:PackIcon Kind="FolderPlus" />
-                            </Button>
-                            
-                            <Button ToolTip="Добавить файлы" Click="btn2_click">
-                                <materialDesign:PackIcon Kind="FilePlus" />
-                            </Button>
-
-                            <Separator/>
-                            
-                            <Button ToolTip="Запустить рассчет" Click="btn3_click">
+                        <Button ToolTip="Добавить папки" Click="btn1_click">
+                            <materialDesign:PackIcon Kind="PlusThick" />
+                        </Button>
+                        <Button ToolTip="Запустить рассчет" Click="btn3_click">
                                 <materialDesign:PackIcon Kind="Play" />
                             </Button>
+                            
+                            <Button ToolTip="Копировать в буфер обмена выделенные строки" Click="btn8_click">
+                                <materialDesign:PackIcon Kind="ArrangeBringForward" />
+                            </Button>
 
-                            <Button ToolTip="Сохранить результаты" Click="btn4_click" >
+                        <Button ToolTip="Сохранить результаты в файл" Click="btn4_click" >
                                 <materialDesign:PackIcon Kind="ContentSave" />
                             </Button>
                             
                             <Separator/>
 
-                            <Button ToolTip="Очистить" Click="btn5_click"
+                            <Button ToolTip="Очистить список файлов" Click="btn5_click"
                                         Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
                                 <materialDesign:PackIcon Kind="Delete" />
                             </Button>

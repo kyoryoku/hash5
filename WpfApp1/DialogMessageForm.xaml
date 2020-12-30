@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="WpfApp1.DialogMessageForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WpfApp1"
+             mc:Ignorable="d" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+             TextElement.FontWeight="Regular"
+             TextElement.FontSize="16"
+             TextOptions.TextFormattingMode="Ideal" 
+             TextOptions.TextRenderingMode="Auto"
+             Background="{DynamicResource MaterialDesignPaper}"
+             FontFamily="{DynamicResource MaterialDesignFont}">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <StackPanel Margin="25 25 25 0">
+                <TextBlock x:Name="textBlock" 
+                           HorizontalAlignment="Center" Style="{StaticResource MaterialDesignHeadline5TextBlock}">
+                    
+                </TextBlock>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 50 0 25" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <Button Content="Ок" Margin="25 0 40 0" Width="130" Click="btn1_Click" Style="{StaticResource MaterialDesignRaisedDarkButton}" />
+            </StackPanel>
+        </StackPanel>
+
+    </Grid>
+</UserControl>
+
