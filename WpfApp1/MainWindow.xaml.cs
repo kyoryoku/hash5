@@ -38,7 +38,6 @@ namespace WpfApp1
             InitializeComponent();
             inicializeComponentContent();
             inicializeAppFiles();
-            
         }
 
         //настраиваем компоненты на форме
@@ -77,6 +76,7 @@ namespace WpfApp1
             }
 
             //пробуем считывать настройки из конф файла
+            //THREAD_COUNT = int.Parse(INI.ReadINI("DEFAULT", "THREAD_COUNT"));
             try
             {
                 THREAD_COUNT = int.Parse(INI.ReadINI("DEFAULT", "THREAD_COUNT"));
@@ -243,6 +243,9 @@ namespace WpfApp1
         private async void btn3_click(object sender, RoutedEventArgs e)
         {
 
+     
+
+
             if (FILES.Count != 0)
             {
                 lbl_hint.Content = "Расчет запущен! Ожидайте результаты...";
@@ -301,6 +304,7 @@ namespace WpfApp1
         //КНОПКА: Сохранение результатов в .csv
         private void btn4_click(object sender, RoutedEventArgs e)
         {
+
             if (FILES.Count != 0)
             {
                 SaveFileDialog saveDialog = new SaveFileDialog();
