@@ -348,6 +348,7 @@ namespace WpfApp1
                     }
                 }
 
+                Clipboard.Clear();
                 Clipboard.SetText(text);
                 MESSAGE_QUEUE.Enqueue("В буфер обмена скопировано строк: " + listView.SelectedItems.Count);
             } else
