@@ -242,35 +242,27 @@ namespace WpfApp1
         //КНОПКА: Запуск расчета
         private async void btn3_click(object sender, RoutedEventArgs e)
         {
-            try
+
+            if (FILES.Count != 0)
             {
-                if (FILES.Count != 0)
+                lbl_hint.Content = "Расчет запущен! Ожидайте результаты...";
+                updateControls();
+                await Task.Run(() =>
                 {
-                    lbl_hint.Content = "Расчет запущен! Ожидайте результаты...";
-                    updateControls();
-                    await Task.Run(() =>
+                    FILES.AsParallel().WithDegreeOfParallelism(THREAD_COUNT).ForAll(f =>
                     {
-                        FILES.AsParallel().WithDegreeOfParallelism(THREAD_COUNT).ForAll(f =>
-                        {
-                            f.calculateHash();
-                        });
+                        f.calculateHash();
                     });
+                });
 
-                    string infoMessage = "Расчет контрольных сумм завершен!";
-                    var content = new DialogMessageForm(infoMessage, cancelDialog);
-                    var result = dialogHost.ShowDialog(content);
-                }
-                else
-                {
-                    MESSAGE_QUEUE.Enqueue("В списке нет файлов для рачета!");
-                }
-
+                string infoMessage = "Расчет контрольных сумм завершен!";
+                var content = new DialogMessageForm(infoMessage, cancelDialog);
+                var result = dialogHost.ShowDialog(content);
             }
-            catch (Exception exception)
+            else
             {
-                System.IO.File.WriteAllText(@"C:\log.txt", exception.ToString(), Encoding.UTF8);
+                MESSAGE_QUEUE.Enqueue("В списке нет файлов для рачета!");
             }
-            
         }
 
         //обновление компонентов формы пока идет расчет в отдельном потоке

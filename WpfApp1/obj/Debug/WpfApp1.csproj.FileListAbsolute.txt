@@ -54,3 +54,5 @@ C:\Users\dshul\source\repos\WpfApp1\WpfApp1\obj\Debug\DialogMessageForm.g.cs
 C:\Users\dshul\source\repos\WpfApp1\WpfApp1\obj\Debug\DialogMessageForm.baml
 C:\Users\dshul\source\repos\WpfApp1\WpfApp1\obj\Debug\AddingFilesForm.g.cs
 C:\Users\dshul\source\repos\WpfApp1\WpfApp1\obj\Debug\AddingFilesForm.baml
+C:\Users\dshul\source\repos\WpfApp1\WpfApp1\obj\Debug\InfoForm.g.cs
+C:\Users\dshul\source\repos\WpfApp1\WpfApp1\obj\Debug\InfoForm.baml

@@ -128,6 +128,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="InfoForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -149,6 +153,9 @@
     <Compile Include="File.cs" />
     <Compile Include="HelpForm.xaml.cs">
       <DependentUpon>HelpForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InfoForm.xaml.cs">
+      <DependentUpon>InfoForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="IniFile.cs" />
     <Compile Include="MainWindow.xaml.cs">
