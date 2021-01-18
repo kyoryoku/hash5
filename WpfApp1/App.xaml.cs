@@ -24,7 +24,6 @@ namespace WpfApp1
                 '\n' + "Смотрите подробности в log.txt",
                 "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
 
-
             System.IO.File.AppendAllText(log, DateTime.Now + "  " + e.Exception.Source + '\n');
             System.IO.File.AppendAllText(log, e.Exception.Message + '\n');
             System.IO.File.AppendAllText(log, e.Exception.StackTrace + '\n');

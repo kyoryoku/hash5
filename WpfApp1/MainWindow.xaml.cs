@@ -243,29 +243,26 @@ namespace WpfApp1
         private async void btn3_click(object sender, RoutedEventArgs e)
         {
 
-     
-
-
-            if (FILES.Count != 0)
-            {
-                lbl_hint.Content = "Расчет запущен! Ожидайте результаты...";
-                updateControls();
-                await Task.Run(() =>
-                {
-                    FILES.AsParallel().WithDegreeOfParallelism(THREAD_COUNT).ForAll(f =>
-                    {
-                        f.calculateHash();
-                    });
-                });
-
-                string infoMessage = "Расчет контрольных сумм завершен!";
-                var content = new DialogMessageForm(infoMessage, cancelDialog);
-                var result = dialogHost.ShowDialog(content);
-            }
-            else
+            if (FILES.Count == 0)
             {
                 MESSAGE_QUEUE.Enqueue("В списке нет файлов для рачета!");
+                return;
             }
+
+            lbl_hint.Content = "Расчет запущен! Ожидайте результаты...";
+            updateControls();
+            await Task.Run(() =>
+            {
+ 
+                FILES.AsParallel().WithDegreeOfParallelism(THREAD_COUNT).ForAll(f =>
+                {  
+                    f.calculateHash();
+                });
+            });
+
+            string infoMessage = "Расчет контрольных сумм завершен!";
+            var content = new DialogMessageForm(infoMessage, cancelDialog);
+            var result = dialogHost.ShowDialog(content);
         }
 
         //обновление компонентов формы пока идет расчет в отдельном потоке
@@ -273,6 +270,7 @@ namespace WpfApp1
         {
             await Task.Run(() =>
             {
+               
                 while (FILES.Where(x => x.isDone).Count() != FILES.Count)
                 {
                     Thread.Sleep(100);
@@ -288,7 +286,7 @@ namespace WpfApp1
                     lbl_hint.Content = "Расчет завершен! Сохраните результат...";
                 });
 
-                
+
             });
             
         }
