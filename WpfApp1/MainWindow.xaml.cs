@@ -24,6 +24,8 @@ namespace WpfApp1
         IniFile INI = new IniFile("conf.ini");
         int THREAD_COUNT = 8;
         SnackbarMessageQueue MESSAGE_QUEUE = new SnackbarMessageQueue(TimeSpan.FromSeconds(3));
+        bool COPY_FILENAME = true;
+        bool COPY_HASHVALUE = true;
 
 
 
@@ -49,7 +51,6 @@ namespace WpfApp1
             snackbar.MessageQueue = MESSAGE_QUEUE;
         }
 
-
         //проверяем наличие ключевых файлов
         private async void inicializeAppFiles()
         {
@@ -72,14 +73,14 @@ namespace WpfApp1
                 var content = new DialogMessageForm(warningMessage, cancelDialog);
                 var result = await dialogHost.ShowDialog(content);
 
-                INI.Write("DEFAULT", "THREAD_COUNT", THREAD_COUNT.ToString());
+                writeDefaultINI();
             }
 
             //пробуем считывать настройки из конф файла
             //THREAD_COUNT = int.Parse(INI.ReadINI("DEFAULT", "THREAD_COUNT"));
             try
             {
-                THREAD_COUNT = int.Parse(INI.ReadINI("DEFAULT", "THREAD_COUNT"));
+                loadINI();
             }
             catch
             {
@@ -93,7 +94,22 @@ namespace WpfApp1
 
         }
 
+        //записываем в конф файл параметры по умолчанию
+        private void writeDefaultINI()
+        {
+            INI.Write("DEFAULT", "THREAD_COUNT", THREAD_COUNT.ToString());
+            INI.Write("DEFAULT", "COPY_FILENAME", COPY_FILENAME.ToString());
+            INI.Write("DEFAULT", "COPY_HASHVALUE", COPY_HASHVALUE.ToString());
+        }
 
+
+        //загружаем настройки из конф файла
+        private void loadINI()
+        {
+            THREAD_COUNT = int.Parse(INI.ReadINI("DEFAULT", "THREAD_COUNT"));
+            COPY_FILENAME = bool.Parse(INI.ReadINI("DEFAULT", "COPY_FILENAME"));
+            COPY_HASHVALUE = bool.Parse(INI.ReadINI("DEFAULT", "COPY_HASHVALUE"));
+        }
 
         /*==============================================================================================================================
           =                                                                                                                            =
