@@ -16,5 +16,5 @@ DEBUG;TRACE
 20428310420
 App.xaml;AddingFilesForm.xaml;DeletionConfirmationForm.xaml;DialogMessageForm.xaml;Dictionary1.xaml;HelpForm.xaml;InfoForm.xaml;MainWindow.xaml;
 
-True
+False
 
