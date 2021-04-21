@@ -30,7 +30,7 @@
                     <ToolBarTray>
                         <ToolBar Style="{DynamicResource MaterialDesignToolBar}" >
 
-                        <Button ToolTip="Добавить папки" Click="btn1_click">
+                        <Button ToolTip="Добавить файлы или папки" Click="btn1_click">
                             <materialDesign:PackIcon Kind="PlusThick" />
                         </Button>
                         <Button ToolTip="Запустить рассчет" Click="btn3_click">

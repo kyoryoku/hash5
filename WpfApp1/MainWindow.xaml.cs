@@ -343,7 +343,7 @@ namespace WpfApp1
             }
             else
             {
-                MESSAGE_QUEUE.Enqueue("В списке нет файлов для сохранения!");
+                MESSAGE_QUEUE.Enqueue("Перед сохранением результатов необходимо добавить файлы и выполнить их расчет!");
             }
             
 
@@ -405,10 +405,10 @@ namespace WpfApp1
         //КНОПКА: Настройки
         private async void btn6_click(object sender, RoutedEventArgs e)
         {
-            var content = new DialogMessageForm("123", cancelDialog);
+            var content = new DialogMessageForm("В данной версии программы настройка осуществляется через\nфайл конфигурации conf.ini, расположенный в корне программы. ", cancelDialog);
             var result = await dialogHost.ShowDialog(content);
 
-            MESSAGE_QUEUE.Enqueue("dasdasd");
+            //MESSAGE_QUEUE.Enqueue("dasdasd");
         }
 
 
